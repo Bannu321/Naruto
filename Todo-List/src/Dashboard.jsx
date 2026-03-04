@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import TopBar from "./TopBar";
+import Footer from "./Footer";
 
 const Dashboard = () => {
   const [user, setUser] = useState("");
@@ -21,6 +23,7 @@ const Dashboard = () => {
 
   return (
     <div>
+      <TopBar />
       <h1>
         Welcome {usr?.name} you are {usr?.age} old
       </h1>
@@ -28,6 +31,7 @@ const Dashboard = () => {
       <h2>
         You are Level: {usr.level} and XP: {usr.xp}{" "}
       </h2>
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -9,6 +9,16 @@ const LoginPage = () => {
   const [viewPass, setViewPass] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPass] = useState("");
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("user")) {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
   const handleToggle = () => {
     setViewPass(!viewPass);
@@ -31,7 +41,6 @@ const LoginPage = () => {
       alert("Invalid Credentials");
     }
   };
-
 
   return (
     <div className="LoginForm">
