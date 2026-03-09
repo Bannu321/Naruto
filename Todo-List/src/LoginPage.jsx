@@ -18,7 +18,11 @@ const LoginPage = () => {
     } catch (err) {
       console.log(err);
     }
-  });
+  }, [navigate]); 
+  // The useEffect hook lacks a dependency array, so it executes on every render cycle.
+  //  This can cause performance issues and unexpected behavior. 
+  // Since the intent is to check authentication status once 
+  // when the component mounts, add an empty dependency array.
 
   const handleToggle = () => {
     setViewPass(!viewPass);

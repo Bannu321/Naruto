@@ -3,11 +3,12 @@ const app = express();
 const port = 8080;
 const cors = require("cors");
 const mongoose = require("mongoose");
+const User = require("./models/user");
 
-const MDBURI = "mongodb://127.0.0.1:27017/NarutoDB";
+const MDB_URI = "mongodb://127.0.0.1:27017/NarutoDB";
 
 mongoose
-  .connect(MDBURI)
+  .connect(MDB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -21,41 +22,9 @@ app.use(
   }),
 );
 
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
-  password: {
-    type: String,
-    required: true,
-  },
-
-  age: {
-    type: Number,
-    required: true,
-  },
-
-  level: {
-    type: Number,
-    required: true,
-    default: 1,
-  },
-
-  xp: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-});
-
-const User = mongoose.model("User", UserSchema);
-
 app.use(express.json());
 
-const users = [];
+// const users = [];
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -100,23 +69,22 @@ app.post("/login", async (req, res) => {
       return res.status(401).send("Invalid Credentials");
     }
 
-    if (usr.password !== password) {
-      return res.status(401).send("Invalid Credentials");
+    if (await usr.comparePassword(password)) {
+      return res.status(200).send({
+        message: "Login successful",
+        user: {
+          id: usr._id,
+          name: usr.name,
+          age: usr.age,
+          level: usr.level,
+          xp: usr.xp,
+        },
+      });
     }
-
-    res.status(200).send({
-      message: "Login successful",
-      user: {
-        id: usr._id,
-        name: usr.name,
-        age: usr.age,
-        level: usr.level,
-        xp: usr.xp,
-      },
-    });
+    return res.status(401).send("Invalid Credentials");
   } catch (err) {
     console.log("Server error: " + err);
-    res.status(500).send("server error");
+    res.status(500).send("Server error");
   }
 });
 

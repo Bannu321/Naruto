@@ -14,6 +14,13 @@ const Dashboard = () => {
         const usr = JSON.parse(localStorage.getItem("user"));
       } catch (err) {
         console.log(err);
+        usr = {
+          name: "Guest",
+          age: "000",
+          level: "0",
+          xp: "0",
+        }
+        localStorage.setItem("user", JSON.stringify(usr));
       }
     };
     FetchUser();
