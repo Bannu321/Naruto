@@ -24,7 +24,7 @@ const LoginPage = () => {
     }
     
     try {
-      const res = await axios.post("http://localhost:8080/register", {
+      const res = await axios.post("http://localhost:8080/auth/register", {
         name: username,
         age: age,
         password: password,
