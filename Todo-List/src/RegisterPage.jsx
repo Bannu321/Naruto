@@ -1,38 +1,33 @@
-import React from "react";
-import "./index.css";
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./index.css";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const [viewPass, setViewPass] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState("");
 
-  const handleToggle = () => {
-    setViewPass(!viewPass);
-  };
+  const handleToggle = () => setViewPass(!viewPass);
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     if (!username.trim() || !password.trim() || !age) {
-      alert("Please fill in all the fields");
+      alert("Please fill in all fields");
       return;
     }
-    
     try {
-      const res = await axios.post("http://localhost:8080/auth/register", {
+      await axios.post("http://localhost:8080/auth/register", {
         name: username,
-        age: age,
-        password: password,
+        age: Number(age),
+        password,
       });
-      console.log(res.data);
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      alert("Registration failed");
     }
   };
 
@@ -42,56 +37,47 @@ const LoginPage = () => {
       <form onSubmit={handleRegister} className="formLogin">
         <div className="name">
           <input
-            id="username"
             type="text"
-            name="username"
             required
             placeholder="Username"
             value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="age">
           <input
-            id="age"
             type="number"
-            name="age"
             required
             placeholder="Age"
             value={age}
-            onChange={(e) => {
-              setAge(Number(e.target.value));
-            }}
+            onChange={(e) => setAge(e.target.value)}
           />
         </div>
-
         <div className="pass">
           <input
-            id="password"
             type={viewPass ? "text" : "password"}
-            name="password"
             required
             placeholder="Password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <button onClick={handleToggle} type="button" className="viewPass">
-            <i
-              className={viewPass ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}
-              id="togI"
-            ></i>
+          <button type="button" onClick={handleToggle} className="viewPass">
+            <i className={`fa-solid fa-eye${viewPass ? "-slash" : ""}`}></i>
           </button>
         </div>
         <button type="submit" className="butt1">
           Register
+        </button>
+        <button
+          type="button"
+          className="butt1"
+          onClick={() => navigate("/login")}
+        >
+          Have an account? Login
         </button>
       </form>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

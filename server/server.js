@@ -1,25 +1,16 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+import { connectDB } from "./config/db.js";
+
+dotenv.config();
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 5010;
 
-// const User = require("./models/user");
-// import User from "./models/user.js";
 import AuthRoute from "./routes/Authentication.js";
-
-const MDB_URI = "mongodb://127.0.0.1:27017/NarutoDB";
-
-mongoose
-  .connect(MDB_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Error connecting to MongoDB: " + err);
-    console.error(err);
-  });
+import CURDRoute from "./routes/CRUD.js";
 
 app.use(
   cors({
@@ -29,13 +20,14 @@ app.use(
 
 app.use(express.json());
 
-
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Running Server For Naruto To-Do List");
 });
 
 app.use("/auth", AuthRoute);
+app.use("/tasks", CURDRoute);
 
 app.listen(port, () => {
+  connectDB();
   console.log(`Example app listening on port ${port}`);
 });

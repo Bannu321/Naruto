@@ -14,47 +14,63 @@ const Dashboard = () => {
   const [isCompleted, setIsCompleted] = useState(false);
   const locat = useLocation();
 
-  const TodoList = [
-    {
-      id: 11,
-      task: "Login",
-      difficulty: "low",
-      isCompleted: true,
-    },
-    {
-      id: 12,
-      task: "Dashboard",
-      difficulty: "medium",
-      isCompleted: false,
-    },
-    {
-      id: 113,
-      task: "Xp manipulate",
-      difficulty: "mid",
-      isCompleted: false,
-    },
-  ];
+  // const TodoList = [
+  //   {
+  //     id: 11,
+  //     task: "Login",
+  //     difficulty: "low",
+  //     isCompleted: true,
+  //   },
+  //   {
+  //     id: 12,
+  //     task: "Dashboard",
+  //     difficulty: "medium",
+  //     isCompleted: false,
+  //   },
+  //   {
+  //     id: 113,
+  //     task: "Xp manipulate",
+  //     difficulty: "mid",
+  //     isCompleted: false,
+  //   },
+  // ];
 
   const AddTodo = async (e) => {
     e.preventDefault();
     const newTodo = {
-      id: Date.now(),
-      task: taskName,
+      userID: user?.id,
+      title: taskName,
       difficulty: difficulty,
       isCompleted: isCompleted || false,
     };
-
-    // const updatedTodo = [...todoList, newTodo];
-    // setTodoList(updatedTodo);
-    TodoList.push(newTodo)
-    setTodoList([...todoList, newTodo]);
-    setTaskName("");
+    const res = await axios.post("http://localhost:8080/tasks", newTodo);
+    alert("Todo Added Successfully")
+    await FetchTodo();
   };
+
+  const EditTodo = async (e) => {
+    e.preventDefault();
+    const Todo = {
+      todoID: this.id,
+      title: taskName,
+      difficulty: difficulty,
+      isCompleted: isCompleted || false,
+    };
+    const res = await axios.patch("http://localhost:8080/tasks/", Todo);
+    await FetchTodo();
+  };
+  const DeleteTodo = async (e) => {
+    e.preventDefault();
+    todoID = this.id;
+    const res = await axios.delete("http://localhost:8080/tasks/", todoID);
+    await FetchTodo();
+  };
+
   useEffect(() => {
     const FetchUser = async () => {
       try {
-        const usr = JSON.parse(localStorage.getItem("user"));
-        setUser(usr);
+        const user = JSON.parse(localStorage.getItem("user"));
+        setUser(user);
       } catch (err) {
         console.log(err);
         const usr = {
@@ -62,38 +78,40 @@ const Dashboard = () => {
           age: "000",
           level: "0",
           xp: "0",
+          id: "0000",
         };
-        // setUser(usr);
+        setUser(usr);
         localStorage.setItem("user", JSON.stringify(usr));
       }
     };
     FetchUser();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("TodoList", JSON.stringify(TodoList));
-  }, [todoList]);
+  // useEffect( async () => {
+  //   const TodoList = await axios.get("http://localhost:8080/tasks")
+  // });
 
-  useEffect(() => {
-    const FetchTodo = async () => {
+      const FetchTodo = async () => {
       try {
-        const StoredTodo = JSON.parse(localStorage.getItem("TodoList")) || [];
-        setTodoList(StoredTodo);
+        const res = await axios.get("http://localhost:8080/tasks", {
+            params: { userID: user?.id },
+          });
+        setTodoList(res.data);
       } catch (err) {
         console.log(err);
-        res.send({
-          message: "No Todos Found",
-        });
       }
     };
+
+  useEffect(() => {
+    if (!user?.id) return;
     FetchTodo();
-  }, []);
+  }, [user]);
 
   return (
     <div>
       <TopBar />
       <h1>
-        Welcome {user?.name} you are {user?.age} old
+        Welcome {user?.name} you are {user?.age} old your user id is {user?.id}
       </h1>
       <h2>We are pleased to have you on our website thanks for joining us!</h2>
       <h2>
@@ -101,7 +119,7 @@ const Dashboard = () => {
       </h2>
 
       <div className="CreateTodo">
-        <form onSubmit={AddTodo} className="AddTodoForm" >
+        <form className="AddTodoForm">
           <input
             id="task"
             type="text"
@@ -114,53 +132,68 @@ const Dashboard = () => {
           />
           {/* <label htmlFor="taskName"></label> */}
 
-          <input
-            type="radio"
-            id="low"
-            name="diffuclty"
-            value="low"
-            onChange={(e) => {
-              setDifficulity(e.target.value);
-            }}
-          />
-          <label htmlFor="low">Low</label>
+          <div className="Task_diffi">
+            <input
+              type="radio"
+              id="low"
+              name="diffuclty"
+              value="low"
+              onChange={(e) => {
+                setDifficulity(e.target.value);
+              }}
+            />
+            <label htmlFor="low">Low</label>
 
-          <input
-            type="radio"
-            id="mid"
-            name="diffuclty"
-            value="mid"
-            onChange={(e) => {
-              setDifficulity(e.target.value);
-            }}
-          />
-          <label htmlFor="mid">Mid</label>
+            <input
+              type="radio"
+              id="mid"
+              name="diffuclty"
+              value="mid"
+              onChange={(e) => {
+                setDifficulity(e.target.value);
+              }}
+            />
+            <label htmlFor="mid">Mid</label>
 
-          <input
-            type="radio"
-            id="High"
-            name="diffuclty"
-            value="high"
-            onChange={(e) => {
-              setDifficulity(e.target.value);
-            }}
-          />
-          <label htmlFor="High">High</label>
+            <input
+              type="radio"
+              id="High"
+              name="diffuclty"
+              value="high"
+              onChange={(e) => {
+                setDifficulity(e.target.value);
+              }}
+            />
+            <label htmlFor="High">High</label>
+          </div>
 
-          <button type="Submit">Create Todo</button>
+          <button type="Submit" onClick={AddTodo}>Create Todo</button>
         </form>
       </div>
       <div className="TodoContainer">
+        
         {todoList?.length > 0 ? (
           todoList.map((todo) => (
-            <TodoCard
-              key={todo.id}
-              id={todo.id}
-              task={todo.task}
-              difficulty={todo.difficulty}
-              isCompleted={todo.isCompleted}
-            />
+            <div className="TodoWrapper">
+              <TodoCard
+                key={todo._id}
+                id={todo._id}
+                task={todo.title}
+                difficulty={todo.difficulty}
+                isCompleted={todo.isCompleted}
+              />
+              <button>
+                <i>delete</i>
+              </button>
+              <button>
+                <i>edit</i>
+              </button>
+              <button>
+                <i>mark Completed</i>
+              </button>
+            </div>
           ))
+          
         ) : (
           <div className="NoTodo">No Todos Found</div>
         )}

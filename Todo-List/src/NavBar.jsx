@@ -1,34 +1,22 @@
 import React from "react";
-import "./index.css";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
   return (
-    <div>
-      <div className="navbar">
-        <ul>
-          <li>
-            <i
-              className="fa-slab-press fa-regular fa-alarm-clock fa-2x"
-              style={{ textShadow: "none" }}
-            ></i>
-          </li>
-          <li>Home</li>
-          <li>About us</li>
-          <li>contact us</li>
-          <li>
-            <button
-              className="GetStarted butt1"
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              Get started
-            </button>
-          </li>
-        </ul>
-      </div>
+    <div className="navbar">
+      <ul>
+        <li><i className="fa-solid fa-leaf fa-2x" style={{ color: "#f39c12" }}></i></li>
+        <li>Home</li>
+        <li>About us</li>
+        <li>Contact us</li>
+        <li>
+          <button className="butt1" onClick={() => navigate("/login")}>
+            Get started
+          </button>
+        </li>
+      </ul>
     </div>
   );
 };

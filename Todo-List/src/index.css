@@ -1,293 +1,401 @@
+/* ===== RESET & BASE ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-.navbar {
+body {
+  background: linear-gradient(145deg, #0d0d0d 0%, #1f1f1f 100%);
+  color: #f0e6d0;
+  min-height: 100vh;
+}
+
+/* ===== NAVBAR / TOPBAR ===== */
+.navbar, .topbar {
   width: 100%;
   height: 80px;
-  background-color: rgb(8, 121, 83);
+  background: #1a1a1a;
+  border-bottom: 3px solid #f39c12;
   display: flex;
+  align-items: center;
+  justify-content: center;
   position: sticky;
   top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
 }
 
-.navbar ul {
+.navbar ul, .topbar ul {
   display: flex;
-  list-style-type: none;
+  list-style: none;
+  gap: 30px;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 }
 
-.navbar ul li {
+.navbar ul li, .topbar ul li {
   padding: 10px 20px;
-  margin: 20px;
   cursor: pointer;
-  text-shadow: 8px 8px 8px hsl(0, 0%, 37%);
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.1rem;
+  color: #f0e6d0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  transition: all 0.2s;
+  border-radius: 30px;
 }
 
-
-.topbar {
-  width: 100%;
-  height: 80px;
-  background-color: rgb(8, 121, 83);
-  display: flex;
-  position: sticky;
-  top: 0;
+.navbar ul li:hover, .topbar ul li:hover {
+  background: rgba(243, 156, 18, 0.2);
+  transform: translateY(-2px);
 }
 
-.topbar ul {
-  display: flex;
-  list-style-type: none;
-  align-items: center;
-  justify-content: space-around;
+.navbar .butt1, .topbar .butt2 {
+  background: #f39c12;
+  border: none;
+  padding: 8px 25px;
+  border-radius: 40px;
+  font-weight: bold;
+  color: #1a1a1a;
+  box-shadow: 0 0 10px #f39c12;
+  transition: 0.2s;
 }
 
-.topbar ul li {
-  padding: 10px 20px;
-  margin: 20px;
-  cursor: pointer;
-  text-shadow: 8px 8px 8px hsl(0, 0%, 37%);
-  font-weight: 600;
-  font-size: 18px;
+.navbar .butt1:hover, .topbar .butt2:hover {
+  background: #e67e22;
+  box-shadow: 0 0 15px #e67e22;
+  transform: scale(1.05);
 }
 
+/* ===== HERO SECTION ===== */
 .hero {
   width: 100%;
-  height: 45em;
-  background-color: hsl(51, 49%, 60%);
+  min-height: 45em;
+  background: url('https://www.transparenttextures.com/patterns/naruto.png'), #2c1810;
+  background-size: cover, auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  text-align: center;
+  border-bottom: 5px solid #f39c12;
 }
 
 .hero h1 {
-  font-size: 50px;
-  font-weight: 600;
-  color: rgb(5, 80, 55);
+  font-size: 4rem;
+  font-weight: 700;
+  color: #f39c12;
+  text-shadow: 4px 4px 0 #000, 6px 6px 0 #e74c3c;
   overflow: hidden;
-  /* border-right: 2px solid rgb(5, 80, 55); */
+  white-space: nowrap;
+  border-right: 3px solid #e74c3c;
+  animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
 }
 
-.butt1 {
-  width: auto;
-  height: auto;
-  padding: 10px 10px;
-  margin: 10px;
-  background-color: rgb(8, 121, 83);
-  border: 1px solid rgb(5, 80, 55);
-  border-radius: 12px;
-  font-size: 20px;
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #e74c3c; }
+}
+
+/* ===== BUTTONS ===== */
+.butt1, .butt2 {
+  background: linear-gradient(145deg, #f39c12, #e67e22);
+  border: 2px solid #000;
+  border-radius: 50px;
+  padding: 12px 30px;
+  font-size: 1.2rem;
   font-weight: 900;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: rgb(255, 255, 255);
-}
-.butt2 {
-  width: auto;
-  height: auto;
-  padding: 10px 10px;
+  color: #1a1a1a;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #7f3f00;
+  transition: all 0.1s ease;
   margin: 10px;
-  background-color: rgb(225, 12, 83);
-  border: 1px solid rgb(5, 80, 55);
-  border-radius: 12px;
-  font-size: 20px;
-  font-weight: 900;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: rgb(255, 255, 255);
 }
 
-/* Login page  */
+.butt1:active, .butt2:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #7f3f00;
+}
 
+/* ===== LOGIN / REGISTER FORM ===== */
 .LoginForm {
-  width: 350px;
-  height: 300px;
-  margin: 20px auto;
-  padding: 30px 15px;
-  background-color: rgb(8, 121, 83);
-  position: relative;
-  top: 80px;
-  /* display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column; */
-  border: 1px;
-  border-radius: 12px;
+  width: 400px;
+  margin: 50px auto;
+  padding: 30px 25px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 3px solid #f39c12;
+  border-radius: 30px;
+  box-shadow: 0 20px 30px rgba(243, 156, 18, 0.3);
+  backdrop-filter: blur(5px);
 }
 
-.LoginForm .formLogin {
-  width: auto;
-  height: auto;
-  min-width: 350px;
-  min-height: 200px;
+.LoginForm h2 {
+  text-align: center;
+  color: #f39c12;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.formLogin {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
-  padding: 50px;
-  position: absolute;
+  gap: 20px;
 }
 
-.formLogin #username {
-  width: auto;
-  height: 40px;
-  border: 2px;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 5px;
-}
-.formLogin #age {
-  width: auto;
-  height: 40px;
-  border: 2px;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 5px;
-}
-.formLogin #password {
-  width: auto;
-  height: 40px;
-  border: 2px;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 5px;
+.formLogin .name, .formLogin .pass, .formLogin .age {
   position: relative;
-  left: 7px;
+  width: 100%;
+}
+
+.formLogin input {
+  width: 100%;
+  padding: 15px 20px;
+  background: #2c2c2c;
+  border: 2px solid #f39c12;
+  border-radius: 50px;
+  color: #f0e6d0;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+.formLogin input:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 10px #e74c3c;
 }
 
 .viewPass {
-  position: relative;
-  left: -25px;
-  border: 1px;
-  background-color: #ffff;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #f39c12;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 
-.typewriter h1 {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: 0.15em solid orange; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: 0.15em; /* Adjust as needed */
-  animation:
-    typing 3.5s steps(40, end),
-    blink-caret 0.75s step-end infinite;
+/* ===== DASHBOARD ===== */
+h1, h2 {
+  color: #f39c12;
+  text-align: center;
+  text-shadow: 2px 2px 0 #000;
+  margin: 20px 0 10px;
 }
 
-/* The typing effect */
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+.TodoContainer {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: orange;
-  }
-}
-
-.whyus {
-  width: 100%;
-  height: auto;
-  background-color: rgb(8, 121, 83);
+.TodoCard {
+  background: #2c2c2c;
+  border: 2px solid #f39c12;
+  border-radius: 30px;
+  padding: 20px 25px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  box-shadow: 0 8px 0 #7f3f00;
+  transition: 0.2s;
+}
+
+.TodoCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 11px 0 #7f3f00;
+}
+
+.TodoCard h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #f0e6d0;
+  text-shadow: none;
+}
+
+.TodoCard .todoid {
+  color: #f39c12;
+  font-weight: bold;
+  min-width: 40px;
+}
+
+.TodoCard .todotask {
+  flex: 2;
+  font-weight: 600;
+}
+
+.TodoCard .tododifficulty {
+  background: rgba(243, 156, 18, 0.3);
+  padding: 5px 15px;
+  border-radius: 40px;
+  text-transform: capitalize;
+  border: 1px solid #f39c12;
+}
+
+.TodoCard .todocompleted {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+/* ===== ADD TODO FORM ===== */
+.CreateTodo {
+  display: flex;
   justify-content: center;
-  flex-direction: column;
+  margin: 30px 0;
+}
+
+.AddTodoForm {
+  background: #1a1a1a;
+  border: 3px solid #f39c12;
+  border-radius: 60px;
+  padding: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1000px;
+  box-shadow: 0 10px 0 #7f3f00;
+}
+
+.AddTodoForm #task {
+  background: #2c2c2c;
+  border: 2px solid #f39c12;
+  border-radius: 40px;
+  padding: 12px 25px;
+  width: 300px;
+  color: #f0e6d0;
+  font-size: 1rem;
+}
+
+.Task_diffi {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  color: #f0e6d0;
+}
+
+.Task_diffi input[type="radio"] {
+  accent-color: #f39c12;
+  width: 18px;
+  height: 18px;
+}
+
+.AddTodoForm button[type="Submit"] {
+  background: #f39c12;
+  border: none;
+  border-radius: 40px;
+  padding: 12px 30px;
+  font-weight: bold;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 2px solid #000;
+}
+
+.AddTodoForm button[type="Submit"]:hover {
+  background: #e67e22;
+  transform: scale(1.02);
+}
+
+.NoTodo {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #7f8c8d;
+  margin: 50px;
+}
+
+
+
+.TodoWrapper{
+  display: flex;
+  align-items: center;
+}
+
+.TodoWrapper button{
+  width: auto;
+  height: 24px;
+}
+
+/* ===== WHY US SECTION ===== */
+.whyus {
+  background: #1a1a1a;
+  padding: 60px 20px;
+  border-top: 3px solid #f39c12;
+  border-bottom: 3px solid #f39c12;
 }
 
 .whyus ul {
   display: flex;
-  list-style-type: "<i class=" fa-solid fa-plus "></i>";
-  align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 30px;
+  list-style: none;
   flex-wrap: wrap;
-  flex-direction: column;
 }
 
 .whyus ul li {
-  padding: 10px 20px;
-  margin: 20px;
-  cursor: pointer;
-  text-shadow: 8px 8px 8px hsl(0, 0%, 37%);
+  background: #2c2c2c;
+  padding: 15px 30px;
+  border-radius: 50px;
+  border: 2px solid #f39c12;
   font-weight: 600;
-  font-size: 18px;
+  color: #f39c12;
 }
 
+/* ===== FOOTER ===== */
 .footer {
-  width: 100%;
-  height: auto;
-  background-color: rgb(5, 80, 55);
-  padding: 20px 12px;
-  /* position: fixed; */
-  bottom: 0;
-  border-top: 3px solid black;
-  position: absolute;
-  bottom: 0;
+  background: #0f0f0f;
+  border-top: 5px solid #f39c12;
+  padding: 40px 20px 20px;
+  color: #bdc3c7;
 }
 
 .footer .actfoot {
   display: flex;
-  align-items: center;
-  justify-content: center;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 30px;
 }
 
 .footer .abt {
-  font-size: 18px;
-  width: 250px;
-  border-right: 1px solid black;
+  max-width: 300px;
+  border-right: 2px solid #f39c12;
+  padding-right: 30px;
 }
 
-.footer .cont {
-  font-size: 18px;
+.footer .abt h2, .footer .cont h2 {
+  color: #f39c12;
+  text-align: left;
+  margin-top: 0;
+}
+
+.footer .cont ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.footer .cont li {
+  margin: 8px 0;
 }
 
 .footer .cprt {
-  margin: 50px 0px 0px 0px;
-  border-top: 1px solid black;
-  font-size: 20px;
-  height: 25px;
   text-align: center;
-}
-
-
-.TodoCard {
-  width: auto;
-  height: 100px;
-  margin: 8px;
-  padding: 10px;
-  display: flex;
-}
-
-
-.TodoContainer {
-  width: auto;
-  height: 100px;
-  margin: 20px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.CreateTodo{
-  display: flex;
-  align-items:center;
-  justify-content: center;
-  margin: 10px;
-  padding: 10px;
-  padding: 10px;
-  width: 150px;
+  border-top: 1px solid #f39c12;
+  padding-top: 15px;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #95a5a6;
 }
